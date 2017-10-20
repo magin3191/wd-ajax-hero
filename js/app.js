@@ -17,7 +17,9 @@
         'data-tooltip': movie.title
       });
 
-      $title.tooltip({ delay: 50 }).text(movie.title);
+      $title.tooltip({
+        delay: 50
+      }).text(movie.title);
 
       const $poster = $('<img>').addClass('poster');
 
@@ -56,5 +58,52 @@
     }
   };
 
-  // ADD YOUR CODE HERE
+
+
+
+
+  var searchBtn = $("button");
+  searchBtn.click(function(event) {
+  event.preventDefault();
+
+  input = $("#search").val();
+
+
+    var input = input.replace('%20', ' ');
+    var $xhr = $.getJSON('https://omdb-api.now.sh/?s=' + input + '/');
+    $xhr.done(function(data) {
+      if ($xhr.status !== 200) {
+        return;
+      }
+      var title = data.Search;
+
+
+      for (var i = 0; i < title.length; i++) {
+        var movieObj = {
+          title: title[i]['Title'],
+          year: title[i]['Year'],
+          poster: title[i]['Poster'],
+          id: title[i]['imdbID']
+        };
+        movies.push(movieObj);
+
+
+
+      }
+
+      renderMovies();
+      movies.splice(0, movies.length)
+
+    })
+
+
+  })
+
+
+
+
+
+
+  // ADD YOUR CODE HERE}
+
 })();
